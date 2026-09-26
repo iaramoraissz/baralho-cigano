@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cartomancia, tiragens e métodos de consulta.">
+<title>Seu Oráculo — Cartomancia</title>
+<style>
+:root{
+  --bg:#10071b; --bg2:#180b26; --card:#21102f; --purple:#c9a9e7;
+  --purple2:#9c6fc1; --white:#f5ecff; --gold:#d7b875; --muted:#c7b6d2;
+  --line:rgba(201,169,231,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--white);font-family:Georgia,"Times New Roman",serif;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(156,111,193,.18),transparent 25%),
+    radial-gradient(circle at 90% 20%,rgba(201,169,231,.12),transparent 28%),
+    linear-gradient(145deg,var(--bg),var(--bg2));
+  line-height:1.6;
+}
+body:before{
+  content:"✦  ·  ☾  ·  ✧  ·  ☽  ·  ✦";
+  position:fixed;top:0;left:0;right:0;padding:8px;text-align:center;
+  color:var(--purple2);opacity:.2;letter-spacing:18px;pointer-events:none;z-index:0
+}
+a{color:inherit;text-decoration:none}
+.container{width:min(1080px,92%);margin:auto;position:relative;z-index:1}
+nav{
+  position:absolute;top:0;left:0;right:0;width:92%;max-width:1080px;
+  margin:0 auto;padding:22px 0;display:flex;
+  justify-content:space-between;align-items:center
+}
+.brand{letter-spacing:.15em;text-transform:uppercase;font-size:.85rem;color:var(--purple)}
+.navlinks{display:flex;gap:22px;font-size:.9rem;color:var(--muted)}
+header{
+  min-height:88vh;display:flex;align-items:center;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero{width:min(800px,100%);padding:100px 0 50px;margin:auto}
+.eyebrow{color:var(--purple);letter-spacing:.2em;text-transform:uppercase;font-size:.76rem}
+h1{font-size:clamp(3.2rem,10vw,7rem);line-height:.92;font-weight:normal;color:var(--purple);margin:18px 0;text-shadow:0 0 25px rgba(201,169,231,.18)}
+.hero p{max-width:650px;margin:20px auto;color:var(--muted);font-size:1.08rem}
+.buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-block;padding:12px 24px;border:1px solid var(--purple);border-radius:999px;transition:.2s}
+.btn.primary{background:var(--purple);color:#180b26}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(201,169,231,.12)}
+section{padding:76px 0}
+.section-head{text-align:center;margin-bottom:34px}
+.section-head .symbol{color:var(--gold);font-size:1.5rem}
+h2{font-size:2.35rem;font-weight:normal;color:var(--purple);margin:5px 0}
+.section-head p{color:var(--muted);max-width:650px;margin:auto}
+.catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.price-card{
+  background:linear-gradient(145deg,rgba(33,16,47,.95),rgba(24,11,38,.9));
+  border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center;
+  box-shadow:0 12px 30px rgba(0,0,0,.18)
+}
+.price-card h3{margin:0;color:var(--white);font-weight:normal}
+.price{font-size:1.55rem;color:var(--purple);margin-top:5px}
+.special{grid-column:1/-1}
+.methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.method-card{
+  display:block;color:inherit;text-decoration:none;
+  background:rgba(33,16,47,.85);border:1px solid var(--line);border-radius:20px;
+  padding:22px;position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .2s, box-shadow .2s, border-color .2s;
+}
+.method-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(0,0,0,.22);
+  border-color:var(--purple);
+}
+.method-card:before{
+  content:"☾";position:absolute;right:-4px;top:-18px;font-size:90px;
+  color:rgba(201,169,231,.06)
+}
+.method-card h3{color:var(--purple);font-size:1.35rem;margin:0 0 7px}
+.method-card .method-price{color:var(--gold);font-weight:bold;font-size:1.15rem}
+.method-card p{color:var(--muted);font-size:.94rem}
+.image-card{
+  grid-column:1/-1;border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  background:#0d0615;text-align:center
+}
+.image-card img{width:100%;max-height:780px;object-fit:contain;display:block;margin:auto}
+.image-caption{padding:20px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.step{text-align:center;padding:15px}
+.num{
+  width:44px;height:44px;border:1px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--gold)
+}
+.step strong{color:var(--white)}
+.step p{color:var(--muted);font-size:.9rem}
+.contact{
+  background:linear-gradient(145deg,#29133a,#160a22);
+  border:1px solid var(--line);border-radius:28px;padding:54px 24px;text-align:center
+}
+.contact h2{margin-top:5px}
+.contact p{color:var(--muted);max-width:580px;margin:12px auto 25px}
+footer{text-align:center;color:#8f7d9c;padding:30px 0;font-size:.82rem}
+@media(max-width:700px){
+  .navlinks{display:none}
+  header{min-height:80vh}
+  section{padding:58px 0}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  h2{font-size:2rem}
+}
+</style>
+
+<style id="correcao-centralizacao">
+  .hero, .hero * {
+    text-align: center !important;
+  }
+</style>
+
+
+<style id="correcao-layout-mobile">
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  header {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  nav.container,
+  .hero.container,
+  main .container,
+  footer {
+    width: min(92%, 1080px);
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero.container {
+    width: min(92%, 800px);
+  }
+  @media (max-width: 700px) {
+    nav.container {
+      width: 92%;
+    }
+    .hero.container {
+      width: 92%;
+      max-width: 800px;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+    }
+    nav.container {
+      position: absolute;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+    h1 {
+      font-size: clamp(3rem, 16vw, 5rem);
+      overflow-wrap: normal;
+    }
+  }
+</style>
+
+</head>
+<body>
+<header id="inicio">
+<nav class="container">
+  <a class="brand" href="#inicio">Iara Morais</a>
+  <div class="navlinks">
+    <a href="#catalogo">Catálogo</a>
+    <a href="#templos">Templos</a>
+    <a href="#pix">Pix</a>
+    <a href="#contato">Contato</a>
+  </div>
+</nav>
+<div class="hero container">
+  <div class="eyebrow">✦ cartomancia · tiragens · intuição ✦</div>
+  <h1>Baralho Cigano</h1>
+  <p>Escolha a tiragem que mais se conecta com aquilo que você precisa saber.</p>
+  <div class="buttons">
+    <a class="btn primary" href="https://wa.me/5537999326835?text=Oi!%20Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20uma%20tiragem.">Falar pelo WhatsApp</a>
+    <a class="btn" href="#catalogo">Ver catálogo</a>
+  </div>
+</div>
+</header>
+
+<main>
+<section id="catalogo">
+<div class="container">
+  <div class="section-head">
+    <div class="symbol">☾ ✦ ☽</div>
+    <h2>Catálogo</h2>
+    <p>Escolha a quantidade de perguntas para sua tiragem.</p>
+  </div>
+  <div class="catalog">
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%201%20pergunta%20%28R%24%205%2C00%29." target="_blank" rel="noopener"><h3>1 pergunta</h3><div class="price">R$ 5,00</div></a>
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%202%20perguntas%20%28R%24%208%2C00%29." target="_blank" rel="noopener"><h3>2 perguntas</h3><div class="price">R$ 8,00</div></a>
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%203%20perguntas%20%28R%24%2013%2C00%29." target="_blank" rel="noopener"><h3>3 perguntas</h3><div class="price">R$ 13,00</div></a>
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%204%20perguntas%20%28R%24%2018%2C00%29." target="_blank" rel="noopener"><h3>4 perguntas</h3><div class="price">R$ 18,00</div></a>
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%205%20perguntas%20%28R%24%2023%2C00%29." target="_blank" rel="noopener"><h3>5 perguntas</h3><div class="price">R$ 23,00</div></a>
+    <a class="price-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%206%20perguntas%20%28R%24%2028%2C00%29." target="_blank" rel="noopener"><h3>6 perguntas</h3><div class="price">R$ 28,00</div></a>
+    <a class="price-card special" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20de%2030%20minutos%20%28R%24%2030%2C00%29." target="_blank" rel="noopener"><h3>30 minutos</h3><div class="price">R$ 30,00</div></a>
+  </div>
+</div>
+</section>
+
+<section id="templos">
+<div class="container">
+  <div class="section-head">
+    <div class="symbol">✦ ☾ ✦</div>
+    <h2>Templos & tiragens especiais</h2>
+    <p>Métodos completos para questões amorosas e de relacionamento.</p>
+  </div>
+  <div class="methods">
+    <a class="method-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20o%20Templo%20do%20Ex%20%28R%24%2020%2C00%29." target="_blank" rel="noopener">
+      <h3>Templo do Ex</h3>
+      <div class="method-price">R$ 20,00</div>
+      <p>Uma tiragem voltada para relações passadas: sentimentos atuais, motivo do término, possibilidade de retorno, futuro do vínculo e o que ainda permanece entre vocês.</p>
+    </a>
+    <a class="method-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20Ta%C3%A7a%20do%20Amor%20%28R%24%2020%2C00%29." target="_blank" rel="noopener">
+      <h3>Taça do Amor</h3>
+      <div class="method-price">R$ 20,00</div>
+      <p>Uma leitura para mergulhar na dinâmica afetiva, observando sentimentos, intenções, obstáculos e os caminhos que a relação pode tomar.</p>
+    </a>
+    <a class="method-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20o%20Templo%20de%20Afrodite%20%28R%24%2020%2C00%29." target="_blank" rel="noopener">
+      <h3>Templo de Afrodite</h3>
+      <div class="method-price">R$ 20,00</div>
+      <p>Uma tiragem dedicada ao campo amoroso, explorando a conexão entre duas pessoas, desejos, sentimentos, energia da relação e tendências futuras.</p>
+    </a>
+    <a class="method-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20o%20Templo%20do%20Diabo%20%28R%24%2020%2C00%29." target="_blank" rel="noopener">
+      <h3>Templo do Diabo</h3>
+      <div class="method-price">R$ 20,00</div>
+      <p>Uma tiragem para questões intensas e complexas, explorando desejos, apegos, bloqueios, intenções ocultas e aquilo que pode estar prendendo você a uma situação ou pessoa.</p>
+    </a>
+    <a class="method-card" href="https://wa.me/5537999326835?text=Oi%21%20Quero%20fazer%20a%20tiragem%20%22Vale%20a%20pena%20insistir%20na%20rela%C3%A7%C3%A3o%3F%22%20%28R%24%2015%2C00%29." target="_blank" rel="noopener">
+      <h3>Vale a pena insistir na relação?</h3>
+      <div class="method-price">R$ 15,00</div>
+      <p>Uma tiragem de 6 cartas para olhar a relação com mais clareza: quem a pessoa realmente é, como ela te vê, o que sente, o que esconde, o que você não está percebendo e qual a tendência para o futuro do vínculo.</p>
+    </a>
+  </div>
+</div>
+</section>
+
+
+<section id="como-funciona">
+<div class="container">
+  <div class="section-head">
+    <div class="symbol">✦ ☾ ✦</div>
+    <h2>Como funciona?</h2>
+    <p>Um processo simples para marcar sua leitura.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="num">I</div><strong>Escolha</strong><p>Escolha sua tiragem.</p></div>
+    <div class="step"><div class="num">II</div><strong>Chame</strong><p>Fale comigo pelo WhatsApp.</p></div>
+    <div class="step"><div class="num">III</div><strong>Combine</strong><p>Definimos pagamento e detalhes.</p></div>
+    <div class="step"><div class="num">IV</div><strong>Receba</strong><p>Faço sua leitura.</p></div>
+  </div>
+</div>
+</section>
+
+
+<section id="pix">
+<div class="container">
+  <div class="section-head">
+    <div class="symbol">✦ ₱ ✦</div>
+    <h2>Pagamento via Pix</h2>
+    <p>Use a chave abaixo para realizar o pagamento da sua tiragem.</p>
+  </div>
+  <div class="pix-box">
+    <div class="pix-key" id="pixKey">iara.guasti167@icloud.com</div>
+    <br>
+    <button class="btn pix-btn" type="button" onclick="copiarPix()">Copiar chave Pix</button>
+    <div class="pix-note" id="pixStatus">Toque no botão para copiar a chave.</div>
+  </div>
+</div>
+</section>
+
+<section id="quem-sou-eu">
+<div class="container">
+  <div class="section-head">
+    <div class="symbol">✦ ☾ ✦</div>
+    <h2>Quem sou eu?</h2>
+    <p>Meu nome é Iara Morais e estudo oráculos há mais de 5 anos, sempre buscando aprofundar meus conhecimentos e minha conexão com as cartas.</p>
+  </div>
+  <div class="contact">
+    <p>Todo o meu trabalho é feito com responsabilidade, cuidado e respeito, buscando proporcionar a melhor experiência possível para cada consulente. Meus baralhos são limpos regularmente, e cada leitura é preparada com extremo cuidado, atenção e carinho. Tudo é pensado para que cada pessoa se sinta acolhida e tenha uma experiência especial durante sua consulta.</p>
+  </div>
+</div>
+</section>
+
+<section id="contato">
+<div class="container">
+  <div class="contact">
+    <div class="eyebrow">✦ vamos conversar? ✦</div>
+    <h2>Agende sua tiragem</h2>
+    <p>Para escolher seu método, tirar dúvidas ou marcar uma leitura, é só me chamar.</p>
+    <a class="btn primary" href="https://wa.me/5537999326835?text=Oi!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20tiragem.">WhatsApp · (37) 99932-6835</a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>✦ Seu Oráculo · Cartomancia ✦</footer>
+<script>
+function copiarPix(){
+  const chave = document.getElementById('pixKey').textContent.trim();
+  const status = document.getElementById('pixStatus');
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(chave).then(() => {
+      status.textContent = 'Chave Pix copiada! ✦';
+    }).catch(() => fallbackPix(chave, status));
+  } else {
+    fallbackPix(chave, status);
+  }
+}
+function fallbackPix(chave, status){
+  const area = document.createElement('textarea');
+  area.value = chave;
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  try {
+    document.execCommand('copy');
+    status.textContent = 'Chave Pix copiada! ✦';
+  } catch(e) {
+    status.textContent = 'Copie manualmente a chave acima.';
+  }
+  document.body.removeChild(area);
+}
+</script>
+</body>
+</html>
